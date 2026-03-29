@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>4.0.3</version>
+		<relativePath/>
+	</parent>
+	<groupId>com.example</groupId>
+	<artifactId>local-notebooklm</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name/>
+	<description/>
+	<url/>
+	<licenses><license/></licenses>
+	<developers><developer/></developers>
+	<scm><connection/><developerConnection/><tag/><url/></scm>
+	<properties>
+		<java.version>17</java.version>
+	</properties>
+
+	<dependencies>
+		<!-- LangChain4j core + Spring Boot auto-config -->
+		<dependency>
+			<groupId>dev.langchain4j</groupId>
+			<artifactId>langchain4j-spring-boot-starter</artifactId>
+			<version>0.36.2</version>
+		</dependency>
+
+		<!-- Ollama integration (chat + embedding models) -->
+		<dependency>
+			<groupId>dev.langchain4j</groupId>
+			<artifactId>langchain4j-ollama-spring-boot-starter</artifactId>
+			<version>0.36.2</version>
+		</dependency>
+
+		<!-- Apache Tika — extracts text from DOCX, XLSX, PPTX, TXT, CSV, etc. -->
+		<dependency>
+			<groupId>dev.langchain4j</groupId>
+			<artifactId>langchain4j-document-parser-apache-tika</artifactId>
+			<version>0.36.2</version>
+		</dependency>
+
+		<!-- ChromaDB vector store -->
+		<dependency>
+			<groupId>dev.langchain4j</groupId>
+			<artifactId>langchain4j-chroma</artifactId>
+			<version>0.36.2</version>
+		</dependency>
+
+		<!-- PDFBox 2.x — page-level PDF extraction with correct column order -->
+		<!-- Used alongside Tika: Tika handles non-PDF formats, PDFBox handles PDFs -->
+		<dependency>
+			<groupId>org.apache.pdfbox</groupId>
+			<artifactId>pdfbox</artifactId>
+			<version>2.0.29</version>
+		</dependency>
+
+		<!-- tabula-java — structural PDF table extraction → Markdown tables       -->
+		<!-- Uses PDFBox 2.x internally (same version as above — no conflict)      -->
+		<dependency>
+			<groupId>technology.tabula</groupId>
+			<artifactId>tabula</artifactId>
+			<version>1.0.5</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>slf4j-simple</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<!-- Apache POI — DOCX table extraction (XWPFTable → Markdown)            -->
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-ooxml</artifactId>
+			<version>5.2.5</version>
+		</dependency>
+
+		<!-- tess4j — Java JNI binding for Tesseract OCR (image-heavy PDF pages)  -->
+		<!-- Requires: apk add tesseract-ocr tesseract-ocr-data-eng in Dockerfile -->
+		<dependency>
+			<groupId>net.sourceforge.tess4j</groupId>
+			<artifactId>tess4j</artifactId>
+			<version>5.11.0</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.apache.logging.log4j</groupId>
+					<artifactId>log4j-slf4j-impl</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<!-- Spring Boot web -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-webmvc</artifactId>
+		</dependency>
+
+		<!-- Actuator — exposes /actuator/health and /actuator/metrics -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-webmvc-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<annotationProcessorPaths>
+						<path>
+							<groupId>org.projectlombok</groupId>
+							<artifactId>lombok</artifactId>
+						</path>
+					</annotationProcessorPaths>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<excludes>
+						<exclude>
+							<groupId>org.projectlombok</groupId>
+							<artifactId>lombok</artifactId>
+						</exclude>
+					</excludes>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>
